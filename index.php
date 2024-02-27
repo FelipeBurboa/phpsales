@@ -1,5 +1,5 @@
 <?php
-
+require_once "Config/Config.php";
 $route = !empty($_GET['url']) ? $_GET['url'] : "Home/index";
 $array = explode("/", $route);
 $controller = $array[0];
@@ -17,6 +17,7 @@ if (!empty($array[2]) && $array[2] != "") {
     $parameters = trim($parameters, ",");
 }
 
+require_once "Config/App/autoload.php";
 $dirControllers = "Controllers/" . $controller . ".php";
 
 if (file_exists($dirControllers)) {
