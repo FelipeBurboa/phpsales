@@ -1,14 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+$route = !empty($_GET['url']) ? $_GET['url'] : "Home/index";
+$array = explode("/", $route);
+$controller = $array[0];
+$method = "index";
+$parameters = "";
 
-<body>
-    <h1>Test</h1>
-</body>
+if (!empty($array[1]) && $array[1] != "") {
+    $method = $array[1];
+}
 
-</html>
+if (!empty($array[2]) && $array[2] != "") {
+    for ($i = 2; $i < count($array); $i++) {
+        $parameters .= $array[$i] . ",";
+    }
+    $parameters = trim($parameters, ",");
+}
+
+$dirControllers = "Controllers/" . $controller . ".php";
+
+if (file_exists($dirControllers)) {
+    if (file_exists($dirControllers));
+    require_once $dirControllers;
+    $controller = new $controller();
+    if (method_exists($controller, $method)) {
+        $controller->$method($parameters);
+    } else {
+        echo "No existe el método";
+    }
+} else {
+    echo "No existe el controlador";
+}
