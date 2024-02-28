@@ -24,14 +24,14 @@
                                     <h3 class="text-center font-weight-light my-4">Login</h3>
                                 </div>
                                 <div class="card-body">
-                                    <form>
+                                    <form id="frmLogin">
                                         <div class="form-group">
-                                            <label class="small mb-1 ml-1" for="inputEmailAddress"><i class="fas fa-user"></i> Usuario</label>
-                                            <input class="form-control py-4" id="inputEmailAddress" type="text" placeholder="Ingrese Usuario" />
+                                            <label class="small mb-1 ml-1" for="user"><i class="fas fa-user"></i> Usuario</label>
+                                            <input class="form-control py-4" id="user" name="user" type="text" placeholder="Ingrese Usuario" />
                                         </div>
                                         <div class="form-group">
-                                            <label class="small mb-1 ml-1" for="inputPassword"><i class="fas fa-key"></i> Contraseña</label>
-                                            <input class="form-control py-4" id="inputPassword" type="password" placeholder="Ingrese Contraseña" />
+                                            <label class="small mb-1 ml-1" for="password"><i class="fas fa-key"></i> Contraseña</label>
+                                            <input class="form-control py-4" id="password" name="password" type="password" placeholder="Ingrese Contraseña" />
                                         </div>
                                         <!-- TODO
                                         <div class="form-group">
@@ -41,11 +41,14 @@
                                             </div>
                                         </div>
                                             -->
+                                        <div class="alert alert-danger text-center d-none" id="alert" role="alert">
+
+                                        </div>
                                         <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
                                             <!--TODO
                                                 <a class="small" href="password.html">Olvidaste tu contraseña?</a>
                                             -->
-                                            <a class="btn btn-primary" href="index.html">Login</a>
+                                            <button class="btn btn-primary" type="submit" onclick="frmLogin(event)">Login</button>
                                         </div>
                                     </form>
                                 </div>
@@ -80,6 +83,10 @@
     <script src="<?php echo base_url; ?>Assets/js/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
     <script src="<?php echo base_url; ?>Assets/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="<?php echo base_url; ?>Assets/js/scripts.js"></script>
+    <script>
+        const base_url = "<?php echo base_url; ?>";
+    </script>
+    <script src="<?php echo base_url; ?>Assets/js/functions.js"></script>
 </body>
 
 </html>

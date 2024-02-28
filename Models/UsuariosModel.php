@@ -7,9 +7,9 @@ class UsuariosModel extends Query
         parent::__construct();
     }
 
-    public function getUsuario()
+    public function getUsuario(string $user, string $password)
     {
-        $sql = "SELECT * FROM usuario";
+        $sql = "SELECT * FROM usuario WHERE usuario = '$user' AND password = '$password'";
         $data = $this->select($sql);
         return $data;
     }
