@@ -1,3 +1,33 @@
+let tblUsuarios;
+
+document.addEventListener('DOMContentLoaded', function(){
+    tblUsuarios = $('#tblUsuarios').DataTable( {
+        ajax: {
+            url: base_url + 'Usuarios/list',
+            dataSrc: ''
+        },
+        columns: [ {
+            'data': 'id',
+        },
+        {
+            'data': 'usuario',
+        },
+        {
+            'data': 'nombre',
+        },
+        {
+            'data': 'caja',
+        },
+        {
+            'data': 'estado',
+        },
+        {
+            'data': 'acciones',
+        }
+        ]
+    } );
+})
+
 function frmLogin(e) {
     e.preventDefault();
     const user = document.getElementById('user');
@@ -28,4 +58,8 @@ function frmLogin(e) {
             }
         }
     }
+}
+
+function frmUsuario(){
+    $("#nuevo_usuario").modal('show');
 }
