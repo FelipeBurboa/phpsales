@@ -59,7 +59,7 @@
                             <?php } ?>
                         </select>
                     </div>
-                    <button class="btn btn-primary" type="button">Registrar</button>
+                    <button class="btn btn-primary" type="button" onclick="registrarUser(event);">Registrar</button>
                 </form>
             </div>
         </div>

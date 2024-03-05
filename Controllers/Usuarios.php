@@ -51,4 +51,28 @@ class Usuarios extends Controller
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();
     }
+
+    public function registrar()
+    {
+        $usuario = $_POST['usuario'];
+        $nombre = $_POST['nombre'];
+        $password = $_POST['password'];
+        $confirmar = $_POST['confirmar'];
+        $caja = $_POST['caja'];
+
+        if (empty($usuario) || empty($nombre) || empty($password) || empty($caja)) {
+            $msg = "Todos los campos son obligatorios";
+        } elseif ($password != $confirmar) {
+            $msg = "Las contraseñas no coinciden";
+        } else {
+            $data = $this->model->registrarUsuario($usuario, $nombre, $password, $caja);
+            if ($data == "ok") {
+                $msg = "si";
+            } else {
+                $msg = "Error al registrar el usuario";
+            }
+        }
+        echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+        die();
+    }
 }
