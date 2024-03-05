@@ -23,7 +23,7 @@ class Usuarios extends Controller
                 $data[$i]['estado'] = '<span class="badge badge-danger">Inactivo</span>';
             }
             $data[$i]['acciones'] = '<div class="d-flex justify-content-center">
-            <button class="btn btn-primary mr-1" type="button">Editar</button>
+            <button class="btn btn-primary mr-1" type="button" onclick="btnEditarUser(' . $data[$i]['id'] . ')">Editar</button>
             <button class="btn btn-danger ml-2" type="button">Eliminar</button>
             </div>';
         }
@@ -59,20 +59,41 @@ class Usuarios extends Controller
         $password = $_POST['password'];
         $confirmar = $_POST['confirmar'];
         $caja = $_POST['caja'];
-
-        if (empty($usuario) || empty($nombre) || empty($password) || empty($caja)) {
+        $id = $_POST['id'];
+        $hash = hash("SHA256", $password);
+        if (empty($usuario) || empty($nombre) || empty($caja)) {
             $msg = "Todos los campos son obligatorios";
-        } elseif ($password != $confirmar) {
-            $msg = "Las contraseñas no coinciden";
         } else {
-            $data = $this->model->registrarUsuario($usuario, $nombre, $password, $caja);
-            if ($data == "ok") {
-                $msg = "si";
+            if ($id == "") {
+                if ($password != $confirmar) {
+                    $msg = "Las contraseñas no coinciden";
+                } else {
+                    $data = $this->model->registrarUsuario($usuario, $nombre, $hash, $caja);
+                    if ($data == "ok") {
+                        $msg = "si";
+                    } else if ($data == "existe") {
+                        $msg = "El usuario ya existe";
+                    } else {
+                        $msg = "Error al registrar el usuario";
+                    }
+                }
             } else {
-                $msg = "Error al registrar el usuario";
+                $data = $this->model->modificarUsuario($usuario, $nombre, $caja, $id);
+                if ($data == "modificado") {
+                    $msg = "modificado";
+                } else {
+                    $msg = "Error al modificar el usuario";
+                }
             }
         }
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+
+    public function editar(int $id)
+    {
+        $data = $this->model->editarUser($id);
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
         die();
     }
 }

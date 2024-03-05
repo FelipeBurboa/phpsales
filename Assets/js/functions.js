@@ -61,7 +61,12 @@ function frmLogin(e) {
 }
 
 function frmUsuario(){
+    document.getElementById("title").innerHTML = "Nuevo usuario";
+    document.getElementById("btnAccion").innerHTML = "Registrar";
+    document.getElementById("claves").classList.remove("d-none");
+    document.getElementById("frmUsuario").reset();
     $("#nuevo_usuario").modal('show');
+    document.getElementById("id").value = "";
 }
 
 function registrarUser(e) {
@@ -71,7 +76,7 @@ function registrarUser(e) {
     const password = document.getElementById('password');
     const confirmar = document.getElementById('confirmar');
     const caja = document.getElementById('caja');
-    if (usuario.value === '' || nombre.value === '' || password.value === '' || confirmar.value === '' || caja.value === '') {
+    if (usuario.value === '' || nombre.value === '' || caja.value === '') {
         Swal.fire({
           position: "top-end",
           icon: "error",
@@ -79,14 +84,7 @@ function registrarUser(e) {
           showConfirmButton: true,
           timer: 3000
         });
-    }else if (password.value != confirmar.value) {
-        Swal.fire({
-            position: "top-end",
-            icon: "error",
-            title: "Las contraseñas no coinciden",
-            showConfirmButton: true,
-            timer: 3000
-          });
+    
     }else {
         const url = base_url + "Usuarios/registrar"
         const frm = document.getElementById('frmUsuario');
@@ -96,6 +94,7 @@ function registrarUser(e) {
         http.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 const res = JSON.parse(this.responseText)
+                console.log(res);
                 if (res == "si") {
                     Swal.fire({
                         position: "top-end",
@@ -107,16 +106,47 @@ function registrarUser(e) {
                       $("#nuevo_usuario").modal('hide');
                       frm.reset();
                       tblUsuarios.ajax.reload();
-                }else{
+                }else if (res == "modificado"){
                     Swal.fire({
                         position: "top-end",
                         icon: "success",
+                        title: "Usuario modificado con exito",
+                        showConfirmButton: true,
+                        timer: 3000
+                      });
+                      $("#nuevo_usuario").modal('hide');
+                      frm.reset();
+                      tblUsuarios.ajax.reload();
+                }else{
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "error",
                         title: res,
                         showConfirmButton: true,
                         timer: 3000
                       });
                 }
             }
+        }
+    }
+}
+
+function btnEditarUser(id){
+    document.getElementById("title").innerHTML = "Actualizar usuario";
+    document.getElementById("btnAccion").innerHTML = "Actualizar";
+    const url = base_url + "Usuarios/editar/" + id
+    const http = new XMLHttpRequest();
+    http.open('GET', url, true);
+    http.send();
+    http.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            const res = JSON.parse(this.responseText);
+            document.getElementById("id").value = res.id;
+            document.getElementById("usuario").value = res.usuario;
+            document.getElementById("nombre").value = res.nombre;
+            document.getElementById("caja").value = res.id_caja;
+            document.getElementById("claves").classList.add("d-none");
+            $("#nuevo_usuario").modal('show');
         }
     }
 }
